@@ -1,9 +1,9 @@
 # Tedbir
 
-**Planla, olanı kontrol et, değerlendir.** SRA Atölye'nin planlama uygulaması.
+**Planla, olanı teyid et, muhasebe yap.** SRA Atölye'nin planlama uygulaması.
 
-Gün, hafta, ay ve yıl için tedbir (plan) yapılır; sonra ne kadarının gerçekleştiği yüzde ve gerçek süreyle işaretlenir;
-en sonunda gün puanlanır, ders çıkarılır ve mühürlenir. Çıkan ders bir sonraki planın başında karşına çıkar.
+Gün, hafta, ay ve yıl için tedbir (plan) yapılır; sonra **Teyid** bölümünde ne kadarının gerçekleştiği yüzde ve gerçek süreyle işaretlenir;
+en sonunda **Muhasebe** bölümünde gün puanlanır, ders çıkarılır ve mühürlenir. Çıkan ders bir sonraki planın başında karşına çıkar.
 İstenen tedbir rutine dönüştürülüp kendiliğinden tekrarlatılabilir.
 
 ## Telefona kurmak

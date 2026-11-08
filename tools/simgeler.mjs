@@ -1,6 +1,6 @@
 // Uygulama simgesini ve açılış ekranını üretir (assets/*.png). Bir kez çalıştırılır, çıkan dosyalar depoya konur.
 // Çalıştırmak için: npm install sharp && node tools/simgeler.mjs
-// Simge: mor zemin üzerinde beyaz kaşe mührü ve "T" harfi (uygulamadaki değerlendirme mührünün sade hali).
+// Simge: mor zemin üzerinde beyaz kaşe mührü ve "T" harfi (uygulamadaki muhasebe mührünün sade hali).
 import sharp from 'sharp';
 import path from 'node:path';
 

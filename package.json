@@ -2,7 +2,7 @@
   "name": "tedbir",
   "version": "0.3.0",
   "private": true,
-  "description": "Tedbir: planla, olanı kontrol et, değerlendir (SRA Atölye)",
+  "description": "Tedbir: planla, olanı teyid et, muhasebe yap (SRA Atölye)",
   "scripts": {
     "www": "node scripts/hazirla.mjs",
     "android": "npm run www && npx cap add android && npx @capacitor/assets generate --android --assetPath assets && node scripts/patch-android.mjs && npx cap sync android"

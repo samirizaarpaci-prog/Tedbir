@@ -4,7 +4,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Onest:wght@400;500;600;700&family=Young+Serif&display=swap">
 <style>
-/* Layout: tek sütunluk telefon defteri (en çok 600px). Üstte marka ve dönem seçimi, yapışkan tarih çubuğu; altta sabit dört sekme. Tedbirler cetvelli satırlar halinde; değerlendirme bir kaşe mührüyle kapanır. */
+/* Layout: tek sütunluk telefon defteri (en çok 600px). Üstte marka ve dönem seçimi, yapışkan tarih çubuğu; altta sabit dört sekme. Tedbirler cetvelli satırlar halinde; muhasebe bir kaşe mührüyle kapanır. */
 :root{
   --bg:#F3F2F8;--surface:#FFFFFF;--sunken:#ECEAF4;--ink:#1C1930;--ink-2:#57526E;--muted:#736E89;--line:#E2DFEC;--axis:#C5C0D6;
   --accent:#4B3BB8;--accent-hi:#6E60D8;--accent-ink:#FFFFFF;--accent-soft:#EAE7FA;--track:#A79DE6;
@@ -141,7 +141,7 @@ input[type=range].unset::-moz-range-progress{background:transparent}
 .empty p{margin:0;color:var(--ink-2);max-width:40ch}
 .empty-act{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:4px}
 
-/* Kontrol */
+/* Teyid */
 .sum{display:grid;gap:10px}
 .sum-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .sum-num{font-size:52px;font-weight:600;line-height:1;letter-spacing:-.02em}
@@ -185,7 +185,7 @@ input[type=range].unset::-moz-range-progress{background:transparent}
 .ctl-steps li{display:grid;gap:0}
 .st-t{font-size:14px;color:var(--ink-2);overflow-wrap:anywhere}
 
-/* Değerlendirme */
+/* Muhasebe */
 .deg{display:grid;gap:12px}
 .f-h{font-size:15px;font-weight:600}
 .score{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:5px}
@@ -326,7 +326,7 @@ input[type=range].unset::-moz-range-progress{background:transparent}
   <header class="top">
     <div class="brand">
       <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="20" cy="20" r="14.6" fill="none" stroke="currentColor" stroke-width="1"/><text x="20" y="26.6" text-anchor="middle" font-size="18" fill="currentColor" style="font-family:var(--f-display)">T</text></svg>
-      <div><h1 class="brand-name">Tedbir</h1><span class="brand-tag">Planla · kontrol et · değerlendir</span></div>
+      <div><h1 class="brand-name">Tedbir</h1><span class="brand-tag">Planla · teyid et · muhasebe yap</span></div>
     </div>
     <button type="button" class="icon-btn" data-act="settings" aria-label="Ayarlar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></button>
   </header>
@@ -339,8 +339,8 @@ input[type=range].unset::-moz-range-progress{background:transparent}
 
   <nav class="tabbar" aria-label="Bölümler"><div class="tabbar-in">
     <button type="button" class="tab" data-act="tab" data-tab="tedbir"><span class="ti"><svg viewBox="0 0 24 24"><rect x="5" y="3.5" width="14" height="17" rx="2.5"/><path d="M9 8.5h6M9 12h6M9 15.5h3.5"/></svg></span>Tedbir</button>
-    <button type="button" class="tab" data-act="tab" data-tab="kontrol"><span class="ti"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M8.4 12.3l2.5 2.5 4.8-5.2"/></svg></span>Kontrol</button>
-    <button type="button" class="tab" data-act="tab" data-tab="deger"><span class="ti"><svg viewBox="0 0 24 24"><path d="M9.5 3.8h5v5.4a2.6 2.6 0 0 0 1 2l1.3 1H7.2l1.3-1a2.6 2.6 0 0 0 1-2z"/><path d="M5 12.2h14v3.6H5zM6.5 19.6h11"/></svg></span>Değerlendirme</button>
+    <button type="button" class="tab" data-act="tab" data-tab="kontrol"><span class="ti"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M8.4 12.3l2.5 2.5 4.8-5.2"/></svg></span>Teyid</button>
+    <button type="button" class="tab" data-act="tab" data-tab="deger"><span class="ti"><svg viewBox="0 0 24 24"><path d="M9.5 3.8h5v5.4a2.6 2.6 0 0 0 1 2l1.3 1H7.2l1.3-1a2.6 2.6 0 0 0 1-2z"/><path d="M5 12.2h14v3.6H5zM6.5 19.6h11"/></svg></span>Muhasebe</button>
     <button type="button" class="tab" data-act="tab" data-tab="rapor"><span class="ti"><svg viewBox="0 0 24 24"><path d="M5.5 19.5v-7M10.2 19.5V5.5M14.8 19.5v-9.5M19.5 19.5V8"/></svg></span>Rapor</button>
   </div></nav>
 
@@ -547,7 +547,7 @@ const noData = () => !Object.keys(S.docs).length && !Object.keys(S.rut).length;
 const hasCtl = it => it.yuzde != null || !!it.gBas || !!it.gBit || it.gSure != null || (it.adimlar || []).some(s => s.yuzde != null);
 const rutOf = it => (it && it.rutin && S.rut[it.rutin]) || null;
 
-/* Rutinler: bir şablon ve tekrar kuralı; her dönemde kendiliğinden görünür, kontrol edilince o döneme yazılır. */
+/* Rutinler: bir şablon ve tekrar kuralı; her dönemde kendiliğinden görünür, teyid edilince o döneme yazılır. */
 function occurs(r, key) {
   if (key[0] !== r.p || key < r.ilk) return false;
   if (r.son && key > r.son) return false;
@@ -908,21 +908,21 @@ function emptyPlan(p, d) {
     ${S.mode === 'yukleniyor' && none ? '<p class="hint">Kayıtların getiriliyor…</p>' : ''}</section>`;
 }
 
-/* Kontrol sekmesi */
+/* Teyid sekmesi */
 function sumHTML(s, kind) {
   const p = S.period, w = s.pct == null ? 0 : Math.min(100, s.pct);
   const meter = `<div class="meter" aria-hidden="true"><span style="width:${w}%"></span></div>`;
-  const lbl = s.pct == null ? 'henüz kontrol edilmedi' : 'gerçekleşti';
+  const lbl = s.pct == null ? 'henüz teyid edilmedi' : 'gerçekleşti';
   const plan = s.plan ? fmtSure(s.plan, p) : '—', act = s.hasAct ? fmtSure(s.act, p) : '—';
-  const warn = s.unchecked && s.pct != null ? `<p class="warn">${IC.warn}<span>${s.unchecked} tedbir henüz kontrol edilmedi.</span>${kind === 'sm' ? '<button type="button" class="link" data-act="goto" data-tab="kontrol">Kontrole git</button>' : ''}</p>` : '';
+  const warn = s.unchecked && s.pct != null ? `<p class="warn">${IC.warn}<span>${s.unchecked} tedbir henüz teyid edilmedi.</span>${kind === 'sm' ? '<button type="button" class="link" data-act="goto" data-tab="kontrol">Teyide git</button>' : ''}</p>` : '';
   if (kind === 'big') return `<section class="panel pad sum" aria-label="Özet"><div class="sum-top"><span class="sum-num">${s.pct == null ? '—' : fmtPct(s.pct)}</span><span class="sum-lbl">${lbl}</span></div>${meter}
     <dl class="sum-dl"><div><dt>Planlanan</dt><dd>${plan}</dd></div><div><dt>Gerçekleşen</dt><dd>${act}</dd></div><div><dt>Tamamlanan</dt><dd>${s.done} / ${s.n}</dd></div></dl>${warn}</section>`;
   return `<section class="panel pad sum sm" aria-label="Özet"><div class="sum-line"><b>${s.pct == null ? '—' : fmtPct(s.pct)}</b>${lbl}</div>${meter}
-    <p class="sum-meta">Planlanan ${plan} · Gerçekleşen ${act} · Tamamlanan ${s.done} / ${s.n}</p>${warn || (s.pct == null ? '<p class="warn">' + IC.warn + '<span>Önce ne kadarının yapıldığını işaretle.</span><button type="button" class="link" data-act="goto" data-tab="kontrol">Kontrole git</button></p>' : '')}</section>`;
+    <p class="sum-meta">Planlanan ${plan} · Gerçekleşen ${act} · Tamamlanan ${s.done} / ${s.n}</p>${warn || (s.pct == null ? '<p class="warn">' + IC.warn + '<span>Önce ne kadarının yapıldığını işaretle.</span><button type="button" class="link" data-act="goto" data-tab="kontrol">Teyide git</button></p>' : '')}</section>`;
 }
 function viewKontrol() {
   const key = curKey(), items = itemsFor(key), gs = groups(items);
-  if (!gs.length) return `<section class="empty">${markSVG()}<h2>Kontrol edilecek tedbir yok</h2><p>Önce Tedbir sekmesinde planını yap. Sonra burada her işin ne kadarının gerçekleştiğini işaretlersin.</p><div class="empty-act"><button type="button" class="btn primary" data-act="goto" data-tab="tedbir">Tedbir sekmesine git</button></div></section>`;
+  if (!gs.length) return `<section class="empty">${markSVG()}<h2>Teyid edilecek tedbir yok</h2><p>Önce Tedbir sekmesinde planını yap. Sonra burada her işin ne kadarının gerçekleştiğini işaretlersin.</p><div class="empty-act"><button type="button" class="btn primary" data-act="goto" data-tab="tedbir">Tedbir sekmesine git</button></div></section>`;
   return `<div id="k-sum">${sumHTML(summarize(items, S.docs[key] && S.docs[key].deg), 'big')}</div>` + gs.map(g => secHTML(g, ctlHTML)).join('');
 }
 function devHTML(it) {
@@ -974,7 +974,7 @@ function refreshCtl(it) {
 }
 function replaceCtl(it) { const old = document.getElementById('ctl-' + it.id); if (old) old.outerHTML = ctlHTML(it); refreshCtl(it); }
 
-/* Değerlendirme sekmesi */
+/* Muhasebe sekmesi */
 const DEG = {
   puan: { g: 'Günün puanı', h: 'Haftanın puanı', a: 'Ayın puanı', y: 'Yılın puanı' },
   muhurle: { g: 'Günü mühürle', h: 'Haftayı mühürle', a: 'Ayı mühürle', y: 'Yılı mühürle' },
@@ -996,9 +996,9 @@ function viewDeger() {
     <p class="hint">Yazdığın ders, ${DEG.sonraki[p]} planının başında karşına çıkar.</p></section>`;
   const un = unfinished(items), moved = carried(p, d, key);
   if (moved.length) h += `<section class="panel pad carry"><p class="ok">${IC.check}${moved.length} tedbir ${DEG.yon[p]} aktarıldı.</p><p>Aktarılanları sonraki planda tek tek silebilir ya da hepsini buradan geri alabilirsin.</p><button type="button" class="btn small" data-act="undo-carry">Aktarımı geri al</button></section>`;
-  else if (un.length) h += `<section class="panel pad carry"><div class="f-h">Yarım kalan ${un.length} tedbir</div><p>Bunları ${DEG.yon[p]} plan olarak taşıyabilirsin. Taşınanların kontrol bilgisi boş başlar. Rutinler zaten tekrarlandığı için taşınmaz.</p><button type="button" class="btn small" data-act="carry">${DEG.aktar[p]}</button></section>`;
+  else if (un.length) h += `<section class="panel pad carry"><div class="f-h">Yarım kalan ${un.length} tedbir</div><p>Bunları ${DEG.yon[p]} plan olarak taşıyabilirsin. Taşınanların teyid bilgisi boş başlar. Rutinler zaten tekrarlandığı için taşınmaz.</p><button type="button" class="btn small" data-act="carry">${DEG.aktar[p]}</button></section>`;
   if (sealed) h += `<section class="panel seal-area">${sealSVG(deg.puan, sealDateText(p, d), justSealed === key)}<p class="seal-cap">${stampTime(deg.muhur)} tarihinde mühürlendi.</p><p class="hint">Puanı ya da dersi değiştirmek için mührü kaldır.</p><button type="button" class="btn small" data-act="unseal">Mührü kaldır</button></section>`;
-  else h += `<section class="panel seal-area"><div class="seal-ph" aria-hidden="true"><span>Mühür bekliyor</span></div><button type="button" class="btn primary wide" data-act="seal"${deg.puan == null ? ' disabled' : ''}>${DEG.muhurle[p]}</button><p class="hint">${deg.puan == null ? 'Mühürlemek için önce puan ver.' : 'Mühür, değerlendirmenin bittiğini gösterir.'}</p></section>`;
+  else h += `<section class="panel seal-area"><div class="seal-ph" aria-hidden="true"><span>Mühür bekliyor</span></div><button type="button" class="btn primary wide" data-act="seal"${deg.puan == null ? ' disabled' : ''}>${DEG.muhurle[p]}</button><p class="hint">${deg.puan == null ? 'Mühürlemek için önce puan ver.' : 'Mühür, muhasebenin bittiğini gösterir.'}</p></section>`;
   return h;
 }
 function sealSVG(puan, dateText, fresh) {
@@ -1088,20 +1088,20 @@ function viewRapor() {
   const mode = S.rp.mode, anchor = S.rp.anchor, R = report(mode, anchor), isY = mode === 'y';
   const adi = { h: 'hafta', a: 'ay', y: 'yıl' }[mode];
   if (!R.any) {
-    return `<section class="empty">${markSVG()}<h2>${isCur(mode, anchor) ? 'Bu ' + adi : 'Seçili ' + adi} için henüz kayıt yok</h2><p>Günlerini planlayıp kontrol ettikçe gerçekleşme oranların, puanların ve sürelerin burada grafik olarak birikir.</p>${noData() ? '<div class="empty-act"><button type="button" class="btn" data-act="sample">Örnek günlerle dene</button></div>' : ''}</section>`;
+    return `<section class="empty">${markSVG()}<h2>${isCur(mode, anchor) ? 'Bu ' + adi : 'Seçili ' + adi} için henüz kayıt yok</h2><p>Günlerini planlayıp teyid ettikçe gerçekleşme oranların, puanların ve sürelerin burada grafik olarak birikir.</p>${noData() ? '<div class="empty-act"><button type="button" class="btn" data-act="sample">Örnek günlerle dene</button></div>' : ''}</section>`;
   }
   const { tot, prev, list } = R;
   const dlt = tot.pct != null && prev.pct != null ? Math.round(tot.pct) - Math.round(prev.pct) : null;
   const prevTxt = { h: 'önceki haftaya göre', a: 'önceki aya göre', y: 'önceki yıla göre' }[mode];
   const sameTxt = { h: 'Önceki haftayla aynı', a: 'Önceki ayla aynı', y: 'Önceki yılla aynı' }[mode];
-  const deltaS = dlt == null ? tot.nPct + ' gün kontrol edildi' : dlt > 0 ? `<span class="delta up">▲ ${dlt} puan</span> ${prevTxt}` : dlt < 0 ? `<span class="delta down">▼ ${-dlt} puan</span> ${prevTxt}` : sameTxt;
+  const deltaS = dlt == null ? tot.nPct + ' gün teyid edildi' : dlt > 0 ? `<span class="delta up">▲ ${dlt} puan</span> ${prevTxt}` : dlt < 0 ? `<span class="delta down">▼ ${-dlt} puan</span> ${prevTxt}` : sameTxt;
   let h = sampleBanner();
   h += `<section class="tiles" aria-label="Özet">
     <div class="tile"><span class="tile-l">Ortalama gerçekleşme</span><span class="tile-v">${fmtPct(tot.pct)}</span><span class="tile-s">${deltaS}</span></div>
     <div class="tile"><span class="tile-l">Ortalama puan</span><span class="tile-v">${tot.puan != null ? fmtNum(tot.puan) + '<small> / 10</small>' : '—'}</span><span class="tile-s">${tot.nPuan} gün puanlandı</span></div>
     <div class="tile"><span class="tile-l">Gerçekleşen süre</span><span class="tile-v">${tot.plan ? fmtH(tot.act) + '<small> / ' + fmtH(tot.plan) + '</small>' : '—'}</span><span class="tile-s">${tot.plan ? 'Planlanan sürenin %' + Math.round(tot.act / tot.plan * 100) + ' kadarı' : 'Süreli tedbir yok'}</span></div>
     <div class="tile"><span class="tile-l">Mühürlenen gün</span><span class="tile-v">${tot.sealed}<small> / ${R.days.length}</small></span><span class="tile-s">Plan yapılan gün: ${tot.planned}</span></div></section>`;
-  h += `<section class="panel pad">${chartHTML({ kind: 'bar', title: isY ? 'Aylık ortalama gerçekleşme' : 'Günlük gerçekleşme', list, max: 100, ticks: [0, 50, 100].map(v => ({ v, label: '%' + v })), val: b => b.pct, tip: b => [b.pct != null ? fmtPct(b.pct) : (b.hasPlan ? 'Kontrol edilmedi' : 'Kayıt yok'), isY && b.nPct ? b.nPct + ' gün kontrol edildi' : ''] })}</section>`;
+  h += `<section class="panel pad">${chartHTML({ kind: 'bar', title: isY ? 'Aylık ortalama gerçekleşme' : 'Günlük gerçekleşme', list, max: 100, ticks: [0, 50, 100].map(v => ({ v, label: '%' + v })), val: b => b.pct, tip: b => [b.pct != null ? fmtPct(b.pct) : (b.hasPlan ? 'Teyid edilmedi' : 'Kayıt yok'), isY && b.nPct ? b.nPct + ' gün teyid edildi' : ''] })}</section>`;
   h += `<section class="panel pad">${chartHTML({ kind: 'line', title: isY ? 'Aylık ortalama puan' : 'Günün puanı', list, max: 10, ticks: [0, 5, 10].map(v => ({ v, label: String(v) })), val: b => b.puan, tip: b => [b.puan != null ? fmtNum(b.puan) + ' / 10' : 'Puan verilmedi', isY && b.nPuan ? b.nPuan + ' gün puanlandı' : ''] })}</section>`;
   const tmax = niceMax(Math.max(0, ...list.map(b => Math.max(b.plan, b.act))) / 60);
   h += `<section class="panel pad">${chartHTML({ kind: 'bullet', title: 'Planlanan ve gerçekleşen süre (saat)', legend: '<span class="legend"><span><i class="lg-trk"></i>Planlanan</span><span><i class="lg-fil"></i>Gerçekleşen</span></span>', list, max: tmax * 60, ticks: [0, tmax / 2, tmax].map(v => ({ v: v * 60, label: fmtNum(v) })), val: b => b.hasAct ? b.act : null, val2: b => b.plan, tip: b => ['Gerçekleşen ' + (b.hasAct ? fmtDur(b.act) : '—'), 'Planlanan ' + (b.plan ? fmtDur(b.plan) : '—')] })}</section>`;
@@ -1195,7 +1195,7 @@ function rutSection(e, p) {
 function editorHTML() {
   const e = S.ed, p = S.period;
   const types = [['yap', 'Yapılacak']].concat(p === 'g' ? [['saat', 'Saatli']] : [], [['hedef', 'Hedef']]);
-  const hint = { yap: 'Yapacağın bir iş. Süresini yazarsan kontrolde gerçekleşen süreyle karşılaştırılır.', saat: 'Belli bir saat aralığına koyduğun iş. Kontrolde gerçek başlama ve bitiş saatini girersin.', hedef: 'Büyük bir iş ve onu oluşturan küçük adımlar. Her adımın ilerlemesi ayrı işaretlenir.' }[e.tur];
+  const hint = { yap: 'Yapacağın bir iş. Süresini yazarsan teyidde gerçekleşen süreyle karşılaştırılır.', saat: 'Belli bir saat aralığına koyduğun iş. Teyidde gerçek başlama ve bitiş saatini girersin.', hedef: 'Büyük bir iş ve onu oluşturan küçük adımlar. Her adımın ilerlemesi ayrı işaretlenir.' }[e.tur];
   const ph = { yap: 'Örn. 20 matematik sorusu çöz', saat: 'Örn. Sabah çalışması', hedef: 'Örn. Bir kitabı bitir' }[e.tur];
   const durHint = { a: 'Hesapta 1 hafta 7 gün sayılır.', y: 'Hesapta 1 ay 30 gün, 1 hafta 7 gün sayılır.' }[p];
   let h = `<div class="grab" aria-hidden="true"></div>
@@ -1289,8 +1289,8 @@ function settingsHTML() {
   return `<div class="grab" aria-hidden="true"></div>
     <div class="sh-head"><h2 id="sheet-title">Ayarlar</h2><button type="button" class="icon-btn" data-act="sheet-close" aria-label="Kapat">${IC.close}</button></div>
     <section class="set"><h3>Kayıt yeri</h3><p>${modeTxt}</p></section>
-    <section class="set"><h3>Örnek veriler</h3><p>Denemek için son üç haftayı örnek planlar, rutinler, kontroller ve değerlendirmelerle doldurur. Örnekler “örnek” etiketi taşır ve tek dokunuşla silinir.</p><div>${hasSample() ? '<button type="button" class="btn small" data-act="sample-clear">Örnekleri sil</button>' : '<button type="button" class="btn small" data-act="sample">Örnek verilerle dene</button>'}</div></section>
-    <section class="set"><h3>Tüm kayıtlar</h3><p>Bütün planlar, rutinler, kontroller ve değerlendirmeler silinir. Bu işlem geri alınamaz.</p><div><button type="button" class="btn small danger" data-act="wipe">Tüm kayıtları sil</button></div></section>
+    <section class="set"><h3>Örnek veriler</h3><p>Denemek için son üç haftayı örnek planlar, rutinler, teyidler ve muhasebelerle doldurur. Örnekler “örnek” etiketi taşır ve tek dokunuşla silinir.</p><div>${hasSample() ? '<button type="button" class="btn small" data-act="sample-clear">Örnekleri sil</button>' : '<button type="button" class="btn small" data-act="sample">Örnek verilerle dene</button>'}</div></section>
+    <section class="set"><h3>Tüm kayıtlar</h3><p>Bütün planlar, rutinler, teyidler ve muhasebeler silinir. Bu işlem geri alınamaz.</p><div><button type="button" class="btn small danger" data-act="wipe">Tüm kayıtları sil</button></div></section>
     <p class="about">Tedbir · taslak 0.3 · SRA Atölye</p>`;
 }
 
