@@ -1,0 +1,105 @@
+# Tedbir — Android paketini GitHub'ın bilgisayarlarında derler.
+# Her "main" güncellemesinde (ya da Actions sekmesinden "Run workflow" ile) çalışır.
+# Sonuç: Releases sayfasında telefona kurulacak deneme .apk dosyası.
+name: Android paketi
+
+on:
+  push:
+    branches: [main]
+    # Yalnızca açıklama (.md) dosyaları değiştiyse derleme yapılmaz.
+    paths-ignore: ['**.md']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: android
+  cancel-in-progress: true
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Bağımlılıkları kur
+        run: |
+          set -o pipefail
+          npm install --no-audit --no-fund 2>&1 | tee -a build.log
+
+      - name: Uygulama sayfasını hazırla
+        run: |
+          set -o pipefail
+          node scripts/hazirla.mjs 2>&1 | tee -a build.log
+
+      - name: Android projesini oluştur
+        run: |
+          set -o pipefail
+          {
+            npx cap add android &&
+            npx @capacitor/assets generate --android --assetPath assets &&
+            node scripts/patch-android.mjs &&
+            npx cap sync android
+          } 2>&1 | tee -a build.log
+
+      - name: Derle
+        run: |
+          set -o pipefail
+          # Deneme APK'ı keys/debug-test.p12 ile imzalanır (scripts/patch-android.mjs ayarlar).
+          cd android && chmod +x gradlew
+          ./gradlew --no-daemon --console=plain assembleDebug 2>&1 | tee -a ../build.log
+
+      - name: Paketi adlandır
+        run: |
+          mkdir -p out
+          V="$(node -p "require('./package.json').version").$GITHUB_RUN_NUMBER"
+          cp android/app/build/outputs/apk/debug/app-debug.apk "out/tedbir-$V-deneme.apk"
+          ls -la out | tee -a build.log
+
+      - name: Paketi sakla
+        uses: actions/upload-artifact@v4
+        with:
+          name: tedbir-android
+          path: out/*
+
+      - name: Sürüm sayfasına koy
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          V="$(node -p "require('./package.json').version").$GITHUB_RUN_NUMBER"
+          gh release create "v$V" out/* --prerelease --title "Tedbir $V" \
+            --notes "Telefona kurmak için **tedbir-$V-deneme.apk** dosyasını indirip aç."
+
+      - name: Eski deneme sürümlerini temizle
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          # Releases sayfasında yalnızca son iki deneme sürümü kalsın (eskileri karışıklık çıkarmasın).
+          gh release list --limit 100 --json tagName,isPrerelease,createdAt \
+            --jq 'map(select(.isPrerelease)) | sort_by(.createdAt) | reverse | .[2:] | .[].tagName' |
+          while read -r t; do
+            [ -n "$t" ] && gh release delete "$t" --yes --cleanup-tag && echo "silindi: $t"
+          done
+
+      - name: Hata olursa kaydını bırak
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          touch build.log
+          { echo "Derleme $GITHUB_RUN_NUMBER başarısız oldu. Kaydın son kısmı:"; echo; echo '```'; tail -c 60000 build.log; echo '```'; } > issue.md
+          gh issue create --title "Derleme hatası #$GITHUB_RUN_NUMBER" --body-file issue.md
